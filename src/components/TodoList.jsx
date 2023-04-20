@@ -9,13 +9,18 @@ import { v4 as uuidv4 } from "uuid";
 import { DeleteOutline } from "@material-ui/icons";
 
 const TodoList = () => {
+  // dispatch is a function that takes an action as an argument and sends it to the store
   const dispatch = useDispatch();
+
+  // todos is an array of todo objects, which is stored in the store
   const todos = useSelector((state) => state.todos);
-  console.log(todos.todos);
+
+  // These are the states for the add todo form
   const [add, setAdd] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  // This is the function that dispatches the addTodo action
   const handleAdd = (newTitle, newDescription) => {
     dispatch(
       addTodo({
@@ -30,52 +35,59 @@ const TodoList = () => {
 
   return (
     <>
-      {todos.todos?.length > 0 &&
-        todos.todos?.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
+      {// if the todos array is not empty, map through the todos array and render the TodoItem component for each todo
+        todos.todos?.length > 0 &&
+          todos.todos?.map((todo) => <TodoItem key={todo.id} todo={todo} />)
+      }
       <IconButton onClick={() => setAdd(!add)}>
         <AddIcon />
       </IconButton>
-      {todos.todos?.length === 0 && (
-        <h1 style={{ textAlign: "center" }}>No Todos</h1>
-      )}
+      {// if the todos array is empty, show the No Todos message
+        todos.todos?.length === 0 && (
+          <h1 style={{ textAlign: "center" }}>No Todos</h1>
+        )
+      }
 
-      {add && (
-        <div className="add-todo">
-          <IconButton onClick={() => setAdd(false)}>
-            <DeleteOutline />
-          </IconButton>
-          <TextField
-            id="outlined-basic"
-            label="Title"
-            variant="outlined"
-            type="text"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-            style={{ marginLeft: "10px" }}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Description"
-            variant="outlined"
-            type="text"
-            placeholder="Description"
-            onChange={(e) => setDescription(e.target.value)}
-            style={{ marginLeft: "10px" }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            type="button"
-            style={{ marginTop: "10px", marginLeft: "20px" }}
-            onClick={() => {
-              handleAdd(title, description);
-              setAdd(false);
-            }}
-          >
-            Save
-          </Button>
-        </div>
-      )}
+      { // if the add state is true, show the add todo form
+        add && (
+          <div className="add-todo">
+            <IconButton onClick={() => setAdd(false)}>
+              <DeleteOutline />
+            </IconButton>
+            <TextField
+              id="outlined-basic"
+              label="Title"
+              variant="outlined"
+              type="text"
+              placeholder="Title"
+              onChange={(e) => setTitle(e.target.value)}
+              style={{ marginLeft: "10px" }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Description"
+              variant="outlined"
+              type="text"
+              placeholder="Description"
+              onChange={(e) => setDescription(e.target.value)}
+              style={{ marginLeft: "10px" }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              style={{ marginTop: "10px", marginLeft: "20px" }}
+              onClick={() => {
+                // call the handleAdd function and pass the title and description as arguments
+                handleAdd(title, description);
+                setAdd(false);
+              }}
+            >
+              Save
+            </Button>
+          </div>
+        )
+      }
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { IconButton, Tooltip } from "@material-ui/core";
@@ -9,9 +9,9 @@ import { Brightness4, Brightness7 } from "@material-ui/icons";
 
 import { CssBaseline } from "@material-ui/core";
 import TodoList from "./components/TodoList";
-import SingleTodo from "./components/SingleTodo";
-import Weather from "./components/Weather";
 
+
+// This uses Material UI's makeStyles hook to create a style object
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+// This for the light and dark theme
 const lightTheme = createTheme({
   palette: {
     type: "light",
@@ -35,7 +37,6 @@ const lightTheme = createTheme({
     },
   },
 });
-
 const darkTheme = createTheme({
   palette: {
     type: "dark",
@@ -48,16 +49,24 @@ const darkTheme = createTheme({
   },
 });
 
+
+
 function App() {
+  // This state is for the toggle dark mode
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // This function is for the toggle dark mode
   const handleToggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  // This is for the Material UI's makeStyles hook
   const classes = useStyles();
-  console.log("App.js isDarkMode: ", isDarkMode);
+
   return (
-    <Provider store={store}>
+    
+    <Provider store={store}> {/* This is for the redux store */}
+      {/* This is for the toggle dark mode */}
       <ThemeProvider
         theme={isDarkMode ? darkTheme : lightTheme}
         className={classes.root}
@@ -67,10 +76,10 @@ function App() {
             {isDarkMode ? <Brightness4 /> : <Brightness7 />}
           </IconButton>
         </Tooltip>
-        <Weather />
-
+      {/* This is for the Material UI's CssBaseline hook */}
         <CssBaseline />
 
+        {/* This is for the routes */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<TodoList />} />
